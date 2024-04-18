@@ -1,3 +1,19 @@
-:root{
+:root {
     --color-text: red;
+}
+
+#app {
+    height: 100dvh;
+}
+
+main{
+    width: 70%;
+    margin: 0 auto;
+    height: calc(100dvh - 4.5rem);
+}
+.title-text{
+    @apply text-4xl text-center pt-6;
+}
+img{
+    max-width: 100%;
 }
