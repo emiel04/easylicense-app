@@ -10,6 +10,13 @@ export const http = axios.create({
 
 let retryCount = 0;
 
+http.interceptors.request.use(
+    request => {
+        request.headers['Accept-Language'] = localStorage.getItem('lang') ?? navigator.language;
+        return request;
+    }
+);
+
 http.interceptors.response.use(
     response => {
         retryCount = 0;
@@ -32,7 +39,10 @@ http.interceptors.response.use(
 );
 
 async function refresh() {
-    const response = await http.get(API_URL + 'auth/refresh')
+    const response = await http.post(API_URL + 'auth/refresh').catch(() => routeToLogin());
+    return response?.status === 200;
+}
 
-    return response.status === 200;
+async function routeToLogin(){
+    await router.push({name: 'login'});
 }

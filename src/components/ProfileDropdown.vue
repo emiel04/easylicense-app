@@ -13,13 +13,20 @@
         <RouterLink class="justify-between" to="/">Settings</RouterLink>
       </li>
       <li>
-        <RouterLink class="justify-between" to="/">Logout</RouterLink>
+        <RouterLink class="justify-between" to="/login" @click="logout">Logout</RouterLink>
       </li>
     </ul>
   </div>
 </template>
 <script lang="ts">
+import authService from "@/modules/auth/services/AuthService";
+
 export default {
-  name: 'ProfileDropdown'
+  name: 'ProfileDropdown',
+  methods: {
+    logout(){
+      authService.logout();
+    }
+  }
 }
 </script>

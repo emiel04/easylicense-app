@@ -40,6 +40,7 @@
 import type {RegisterProps} from "@/modules/auth/services/AuthService";
 import authService from "@/modules/auth/services/AuthService";
 import {toast} from "vue3-toastify";
+import type {AxiosError} from "axios";
 
 export default {
   name: 'RegisterForm',
@@ -64,22 +65,28 @@ export default {
   },
   methods: {
     async register() {
-      const response = await authService.register(this.form).catch((err) => {
-        Object.values<string[]>(err.response.data.errors).forEach(messages => {
-          messages.forEach(message => {
+      try {
+        const response = await authService.register(this.form);
+
+        if (response.status) {
+          await this.login(response.message);
+        }
+      } catch (err: any) {
+        if (err.response?.data?.errors) {
+          const errorMessages = Object.values<string[]>(err.response.data.errors).flat();
+
+          errorMessages.forEach(message => {
             toast.error(message);
           });
-        });
-      });
-
-      if(response.status){
-        await this.login(response.message);
+        } else {
+          toast.error(err.response?.data?.message);
+        }
       }
     },
     async login(message: string){
       const response = await authService.login({email: this.form.email, password: this.form.password});
       if (response.status) {
-        this.$router.replace({name: 'Home', query: { msg: message, success: 'true'}});
+        this.$router.replace({name: 'home', query: { msg: message, success: 'true'}});
       }
     }
   }

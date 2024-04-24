@@ -1,11 +1,8 @@
 import {http} from "../../../../config";
 
 class LessonService {
-    async all(lang?: string) {
-        let path = "lessons";
-        if (lang) {
-            path += `?lang=${lang}`;
-        }
+    async all(allLanguages: boolean = false) {
+        const path = `lessons${allLanguages ? '?all=true' : ''}`;
         const response = await http.get<Lesson[]>(path);
         return response.data;
     }

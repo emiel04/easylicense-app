@@ -27,6 +27,7 @@
 </template>
 <script lang="ts">
 import authService from "@/modules/auth/services/AuthService";
+import {toast} from "vue3-toastify";
 
 export default {
   name: 'LoginForm',
@@ -46,10 +47,23 @@ export default {
   },
   methods: {
     async login(){
-      const response = await authService.login({email: this.form.email, password: this.form.password});
-      if (response.status) {
-        this.$router.replace({name: 'home', query: { msg: response.message, success: 'true'}});
-      }
+      await authService.login({email: this.form.email, password: this.form.password}).then(response => {
+        if (response.status) {
+          this.$router.replace({name: 'home', query: { msg: response.message, success: 'true'}});
+        }else{
+          toast.error(response.message);
+        }
+      }).catch((response) => {
+        if(response.response.status === 401){
+          toast.error(response.response.data.message);
+          return;
+        }
+        Object.values<string>(response.response.data.errors).forEach(error => {
+          toast.error(error);
+        });
+      });
+
+
     }
   }
 }
