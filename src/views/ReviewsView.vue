@@ -1,17 +1,8 @@
 <script lang="ts">
-import {defineComponent} from 'vue';
 import {useRouter} from "vue-router";
-import Rating from "@/views/Rating.vue";
+import Rating from "@/components/Rating.vue";
 
-
-type Reaction = {
-  name: string;
-  grade: number;
-  rating: number;
-  content: string;
-}
-
-export default defineComponent({
+export default {
   name: "TheoryView",
   components: {Rating},
   setup() {
@@ -19,12 +10,17 @@ export default defineComponent({
       router: useRouter(),
     };
   },
-  data() {
+  data():{
+    page: number;
+    totalPages: number;
+    maxVisiblePages: number;
+    reviews: Review[];
+  } {
     return {
       page: 1,
       totalPages: 100,
       maxVisiblePages: 5,
-      reactions: Array(10).fill({
+      reviews: Array(10).fill({
         name: "Emiel",
         rating: 5,
         grade: 40,
@@ -66,27 +62,29 @@ export default defineComponent({
       this.updateRoute();
     }
   }
-});
+};
 </script>
 
 <template>
   <main class="flex start flex-col">
-    <h1 class="title-text pb-6">Reactions</h1>
-    <div class="border-2 reactions"> <!-- Reactions -->
+    <h1 class="title-text pb-6 inline-block">Reviews</h1>
+    <div class="border-2 reviews"> <!-- Reviews -->
       <!-- Content -->
-      <div v-for="(reaction, i) in reactions" class="card w-96 text-wrap basis-1/2">
+
+      <div v-for="(review, i) in reviews" class="card w-96 text-wrap basis-1/2">
         <div class="card-body basis-0 gap-0 p-6">
           <h2 class="card-title">
-            <span class="border-r-[color:(var(--n))] border-r-2 pr-4">{{ reaction.name }}</span>
-            <span class="border-r-[color:(var(--n))] border-r-2 pr-2">{{ reaction.grade }} / 50</span>
+            <span class="border-r-[color:(var(--n))] border-r-2 pr-4">{{ review.name }}</span>
+            <span class="border-r-[color:(var(--n))] border-r-2 pr-2">{{ review.grade }} / 50</span>
 
-            <Rating :rating=3 :name="'reaction-' + i"/>
+            <Rating :rating=3 :name="'review-' + i"/>
           </h2>
-          <p class="flex-grow-0 overflow-ellipsis">{{ reaction.content }}</p>
+          <p class="flex-grow-0 overflow-ellipsis">{{ review.content }}</p>
         </div>
       </div>
     </div>
-    <div class="join mx-auto p-6">
+
+    <div class="join p-6 mx-auto">
       <button @click="prevPage" class="join-item btn" :disabled="page === 1">«</button>
       <button
           v-for="pageNumber in visiblePages"
@@ -97,12 +95,13 @@ export default defineComponent({
         {{ pageNumber }}
       </button>
       <button @click="nextPage" class="join-item btn" :disabled="page === totalPages">»</button>
+      <button class="btn btn-primary inline-block ml-5">Place review</button>
     </div>
   </main>
 </template>
 
 <style scoped>
-div.reactions {
+div.reviews {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
