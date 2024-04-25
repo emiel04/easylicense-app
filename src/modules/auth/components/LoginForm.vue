@@ -58,6 +58,7 @@ export default {
           toast.error(response.response.data.message);
           return;
         }
+
         Object.values<string>(response.response.data.errors).forEach(error => {
           toast.error(error);
         });

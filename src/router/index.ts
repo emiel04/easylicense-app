@@ -1,6 +1,8 @@
 import {createRouter, createWebHistory} from 'vue-router'
 import StartView from '../views/StartView.vue'
 import authService from "@/modules/auth/services/AuthService";
+import HeaderLayout from "@/views/layout/HeaderLayout.vue";
+import type {User} from "@/modules/core/types/user";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -8,26 +10,39 @@ const router = createRouter({
         {
             path: '/',
             name: 'home',
-            component: StartView,
-            meta: { requiresAuth: true }
-        },
-        {
-            path: '/theory',
-            name: 'theory',
-            component: () => import('../views/TheoryView.vue'),
-            meta: { requiresAuth: true },
-        },
-        {
-            path: '/theory/:id',
-            name: 'lesson',
-            component: () => import('../views/LessonView.vue'),
-            props: route => ({ id: Number(route.params.id) }),
-        },
-        {
-            path: '/reviews',
-            name: 'reviews',
-            component: () => import('../views/ReviewsView.vue'),
-            meta: { requiresAuth: true }
+            component: HeaderLayout,
+            children: [
+                {
+                    path: '/',
+                    name: 'home',
+                    component: () => import('../views/StartView.vue'),
+                    meta: { requiresAuth: true }
+                },
+                {
+                    path: '/theory',
+                    name: 'theory',
+                    component: () => import('../views/TheoryView.vue'),
+                    meta: { requiresAuth: true },
+                },
+                {
+                    path: '/theory/:id',
+                    name: 'lesson',
+                    component: () => import('../views/LessonView.vue'),
+                    props: route => ({ id: Number(route.params.id) }),
+                },
+                {
+                    path: '/reviews',
+                    name: 'reviews',
+                    component: () => import('../views/ReviewsView.vue'),
+                    meta: { requiresAuth: true }
+                },
+                {
+                    path: '/editor',
+                    name: 'editor',
+                    component: () => import('../views/EditorView.vue'),
+                    meta: { requiresAdmin: true }
+                }
+            ]
         },
         {
             path: '/login',
@@ -41,23 +56,28 @@ const router = createRouter({
             component: () => import('../views/RegisterView.vue'),
             meta: { requiresGuest: true }
         },
-        {
-            path: '/editor',
-            name: 'editor',
-            component: () => import('../views/EditorView.vue'),
-        }
+
     ]
 })
 router.beforeEach(async (to, from) => {
-    // instead of having to check every route record with
-    // to.matched.some(record => record.meta.requiresAuth)
-    if (to.meta.requiresAuth && !(await authService.getUser())) {
-        // this route requires auth, check if logged in
-        // if not, redirect to login page.
+
+    const user: User | null = await authService.getUser().catch(() => null);
+
+    if (to.meta.requiresAuth && !user) {
         return {
             path: '/login',
             // save the location we were at to come back later
             query: {redirect: to.fullPath},
+        }
+    }
+    if (to.meta.requiresGuest && user) {
+        return {
+            path: '/',
+        }
+    }
+    if (to.meta.requiresAdmin && !user?.admin ) {
+        return {
+            path: '/',
         }
     }
 })

@@ -8,6 +8,12 @@ export const http = axios.create({
     withCredentials: true
 });
 
+export const guestHttp = axios.create({
+    baseURL: API_URL,
+    headers: {'Accept': 'application/json'},
+    withCredentials: true
+});
+
 let retryCount = 0;
 
 http.interceptors.request.use(

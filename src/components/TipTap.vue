@@ -1,6 +1,6 @@
 <template>
   <section class="w-5/12 m-5 editor">
-    <h1 class="text-3xl">Editor</h1>
+    <h2 class="text-3xl">{{ title }}</h2>
     <div class="buttons shadow-sm border rounded-t-lg p-4 bg-white flex flex-col">
       <div class="join">  <!-- Row 1 -->
         <button @click="editor?.chain().focus().toggleBold().run()" class="btn btn-sm join-item"
@@ -8,7 +8,7 @@
           <svg-icon type="mdi" :path="icons.bold"></svg-icon>
         </button>
         <button @click="editor?.chain().focus().toggleItalic().run()" class="btn btn-sm join-item"
-                :class="{ 'is-active': editor?.isActive('bold') }">
+                :class="{ 'is-active': editor?.isActive('italic') }">
           <svg-icon type="mdi" :path="icons.italic"></svg-icon>
         </button>
         <button @click="editor?.chain().focus().toggleUnderline().run()" class="btn btn-sm join-item"
@@ -51,7 +51,8 @@
           <svg-icon type="mdi" :path="icons.alignRight" ></svg-icon>
         </button>
         <template v-for="level in [2, 3, 4]" :key="level">
-          <button @click="editor?.chain().focus().toggleHeading({ level: level }).run()" :class="{ 'is-active': editor?.isActive('heading', { level: level }) }">
+          <button @click="editor?.chain().focus().toggleHeading({ level: level }).run()" class="btn btn-sm join-item"
+                  :class="{ 'is-active': editor?.isActive('heading', { level: level }) }">
             <svg-icon
                 :key="level"
                 type="mdi"
@@ -60,7 +61,9 @@
             ></svg-icon>
           </button>
         </template>
-
+        <button @click="addImage" class="btn btn-sm join-item">
+          <svg-icon type="mdi" :path="icons.image"></svg-icon>
+        </button>
       </div>
 
 
@@ -68,37 +71,43 @@
     <editor-content :editor="editor" />
   </section>
 </template>
-<style lang="postcss" scoped>
-.is-active {
+<style lang="postcss">
+
+.editor .is-active {
  @apply bg-gray-300;
 }
-button:disabled svg{
+.editor button:disabled svg{
   @apply text-gray-200;
 }
-details ul{
+.editor details ul{
   @apply m-0;
 }
-h2{
-  @apply text-2xl;
-}
 
+.editor img {
+  max-width: 100%;
+  height: auto;
+}
+.editor img.ProseMirror-selectednode {
+  @apply outline outline-offset-2 outline-gray-300;
+}
 </style>
 <script lang="ts">
 import {StarterKit} from "@tiptap/starter-kit";
 import {Editor, EditorContent, mergeAttributes} from '@tiptap/vue-3'
 import SvgIcon from '@jamescoyle/vue-icon';
-import Underline from '@tiptap/extension-underline'
-import BulletList from '@tiptap/extension-bullet-list'
-import ListItem from '@tiptap/extension-list-item'
-import OrderedList from '@tiptap/extension-ordered-list'
-import HorizontalRule from '@tiptap/extension-horizontal-rule'
-import TextAlign from '@tiptap/extension-text-align'
-import DropCursor from '@tiptap/extension-dropcursor'
+import Underline from '@tiptap/extension-underline';
+import BulletList from '@tiptap/extension-bullet-list';
+import ListItem from '@tiptap/extension-list-item';
+import OrderedList from '@tiptap/extension-ordered-list';
+import HorizontalRule from '@tiptap/extension-horizontal-rule';
+import TextAlign from '@tiptap/extension-text-align';
+import DropCursor from '@tiptap/extension-dropcursor';
 import Heading from '@tiptap/extension-heading';
 import Typography from "@tiptap/extension-typography";
+import Image from "@tiptap/extension-image";
 import { mdiFormatBold, mdiFormatItalic, mdiFormatUnderline, mdiUndo, mdiRedo, mdiFormatStrikethroughVariant,
   mdiFormatListBulleted, mdiFormatListNumbered, mdiMinus, mdiAlignHorizontalLeft, mdiAlignHorizontalCenter,
-  mdiAlignHorizontalRight, mdiFormatHeader1, mdiFormatHeader2, mdiFormatHeader3, mdiFormatHeader4}
+  mdiAlignHorizontalRight, mdiFormatHeader1, mdiFormatHeader2, mdiFormatHeader3, mdiFormatHeader4, mdiImagePlusOutline}
   from '@mdi/js';
 export default {
   name: 'TipTap',
@@ -111,6 +120,10 @@ export default {
       type: String,
       default: '',
     },
+    title:{
+      type: String,
+      default: 'Editor',
+    }
   },
   emits: ['update:modelValue'],
   data() : { editor: any | Editor; icons: any } {
@@ -130,7 +143,7 @@ export default {
         alignCenter: mdiAlignHorizontalCenter,
         alignRight: mdiAlignHorizontalRight,
         h1: mdiFormatHeader1, h2: mdiFormatHeader2, h3: mdiFormatHeader3, h4: mdiFormatHeader4,
-
+        image: mdiImagePlusOutline
       },
     }
   },
@@ -207,15 +220,26 @@ export default {
               ]
             },
           }),
-          Typography
+          Typography,
+          Image.configure({
+            allowBase64: true,
+            inline: true,
+          }),
       ],
-      content: this.modelValue,
+      englishContent: this.modelValue,
       onUpdate: () => {
         this.$emit('update:modelValue', this.editor?.getHTML())
       },
     })
   },
-
+  methods: {
+    addImage(){
+      const url = window.prompt('Provide the image source.')
+      if (url) {
+        this.editor?.chain().focus().setImage({ src: url }).run()
+      }
+    }
+  },
   beforeUnmount() {
     this.editor?.destroy()
   },

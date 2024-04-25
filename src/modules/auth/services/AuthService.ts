@@ -1,4 +1,4 @@
-import {http} from "../../../../config";
+import {guestHttp, http} from "../../../../config";
 import type {User} from "@/modules/core/types/user";
 
 
@@ -14,11 +14,11 @@ export type LoginProps = {
 }
 class LessonService {
     async register(data: RegisterProps) {
-        const response = await http.post('auth/register', data);
+        const response = await guestHttp.post('auth/register', data);
         return response.data;
     }
     async login(data: LoginProps) {
-        const response = await http.post('auth/login', data);
+        const response = await guestHttp.post('auth/login', data);
         return response.data;
     }
 
@@ -28,9 +28,13 @@ class LessonService {
     }
 
     async getUser(): Promise<User | null>{
-        const response = await http.get('auth/profile');
+        const response = await guestHttp.get('auth/profile');
         if(!response.status) return null;
-        return response.data;
+
+        const user = response.data.data;
+        localStorage.setItem('user', JSON.stringify(user));
+
+        return user;
     }
 
     async find(id: number): Promise<Lesson | null> {

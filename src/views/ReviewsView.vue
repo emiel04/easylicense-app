@@ -1,31 +1,24 @@
 <script lang="ts">
-import {useRouter} from "vue-router";
 import Rating from "@/components/Rating.vue";
+import type {User} from "@/modules/core/types/user";
+import SvgIcon from '@jamescoyle/vue-icon';
+import { mdiDelete } from '@mdi/js';
+import reviewService from "@/modules/reviews/services/ReviewService";
 
 export default {
   name: "TheoryView",
-  components: {Rating},
-  setup() {
+  components: {Rating, SvgIcon},
+  data() {
     return {
-      router: useRouter(),
-    };
-  },
-  data():{
-    page: number;
-    totalPages: number;
-    maxVisiblePages: number;
-    reviews: Review[];
-  } {
-    return {
+      user: null as User | null,
       page: 1,
       totalPages: 100,
       maxVisiblePages: 5,
-      reviews: Array(10).fill({
-        name: "Emiel",
-        rating: 5,
-        grade: 40,
-        content: "This is the content of rating 1 lor300lor300 dsaf dsaf  sdsadf s lor300 lor300 lor300 lor300"
-      })
+      perPage: 10,
+      reviews: [] as Review[],
+      icons: {
+        delete: mdiDelete
+      }
     };
   },
   computed: {
@@ -39,28 +32,45 @@ export default {
     nextPage() {
       if (this.page < this.totalPages) {
         this.page++;
-        this.updateRoute();
+        this.update();
       }
     },
     prevPage() {
       if (this.page > 1) {
         this.page--;
-        this.updateRoute();
+        this.update();
       }
     },
-    updateRoute() {
-      this.router.replace({query: {page: this.page}});
+    update() {
+      this.$router.replace({query: {page: this.page}});
+      this.updatePage();
+
+    },
+    deleteReview(id: number) {
+      console.log('Delete review with id', id);
+    },
+    updatePage(){
+      console.log(this.page)
+      reviewService.all(this.page, this.perPage).then(response => {
+        this.page = response.current_page;
+        this.totalPages = response.last_page;
+        this.reviews = response.data;
+      });
     }
   },
   created() {
-    const initialPage = parseInt(this.router.currentRoute.value.query.page as string, 10);
+    this.user = JSON.parse(localStorage.getItem('user') ?? '') ?? null;
 
+    const initialPage = parseInt(this.$router.currentRoute.value.query.page as string, 10);
     if (initialPage && initialPage > 0 && initialPage <= this.totalPages) {
       this.page = initialPage;
     } else {
       this.page = 1;
-      this.updateRoute();
+      this.update();
     }
+  },
+  mounted(){
+    this.updatePage();
   }
 };
 </script>
@@ -74,10 +84,15 @@ export default {
       <div v-for="(review, i) in reviews" class="card w-96 text-wrap basis-1/2">
         <div class="card-body basis-0 gap-0 p-6">
           <h2 class="card-title">
-            <span class="border-r-[color:(var(--n))] border-r-2 pr-4">{{ review.name }}</span>
+            <span class="border-r-[color:(var(--n))] border-r-2 pr-4">{{ review.user.name }}</span>
             <span class="border-r-[color:(var(--n))] border-r-2 pr-2">{{ review.grade }} / 50</span>
-
             <Rating :rating=3 :name="'review-' + i"/>
+            <span v-if="user?.admin" class="flex">
+              <button class="" @click="() => deleteReview(review.id)">
+                  <SvgIcon type="mdi" :path="icons.delete"></SvgIcon>
+              </button>
+            </span>
+
           </h2>
           <p class="flex-grow-0 overflow-ellipsis">{{ review.content }}</p>
         </div>
