@@ -35,6 +35,12 @@ export default {
         this.update();
       }
     },
+    setPage(page: number){
+      if (this.page <=  this.totalPages && this.page > 0) {
+        this.page = page;
+        this.update();
+      }
+    },
     prevPage() {
       if (this.page > 1) {
         this.page--;
@@ -47,10 +53,11 @@ export default {
 
     },
     deleteReview(id: number) {
-      console.log('Delete review with id', id);
+      reviewService.delete(id).then(() => {
+        this.updatePage();
+      });
     },
     updatePage(){
-      console.log(this.page)
       reviewService.all(this.page, this.perPage).then(response => {
         this.page = response.current_page;
         this.totalPages = response.last_page;
@@ -86,9 +93,9 @@ export default {
           <h2 class="card-title">
             <span class="border-r-[color:(var(--n))] border-r-2 pr-4">{{ review.user.name }}</span>
             <span class="border-r-[color:(var(--n))] border-r-2 pr-2">{{ review.grade }} / 50</span>
-            <Rating :rating=3 :name="'review-' + i"/>
+            <Rating :rating=review.rating :name="'review-' + i"/>
             <span v-if="user?.admin" class="flex">
-              <button class="" @click="() => deleteReview(review.id)">
+              <button class="" @click="deleteReview(review.id)">
                   <SvgIcon type="mdi" :path="icons.delete"></SvgIcon>
               </button>
             </span>
@@ -105,7 +112,7 @@ export default {
           v-for="pageNumber in visiblePages"
           :key="pageNumber"
           :class="['join-item', 'btn', { 'btn-active': page === pageNumber }]"
-          @click="page = pageNumber"
+          @click="setPage(pageNumber)"
       >
         {{ pageNumber }}
       </button>
