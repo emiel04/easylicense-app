@@ -12,7 +12,7 @@ export type LoginProps = {
     email: string;
     password: string;
 }
-class LessonService {
+class AuthService {
     async register(data: RegisterProps) {
         const response = await guestHttp.post('auth/register', data);
         return response.data;
@@ -37,12 +37,8 @@ class LessonService {
         return user;
     }
 
-    async find(id: number): Promise<Lesson | null> {
-        const response = await http.get<Lesson>(`lessons/${id}`);
-        return response.data;
-    }
 }
 
-const lessonService = new LessonService();
+const lessonService = new AuthService();
 
 export default lessonService;
