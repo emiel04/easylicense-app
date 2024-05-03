@@ -10,4 +10,8 @@ type ReviewUser = {
     id: number;
     name: string;
 }
-
+type CreateReview = {
+    grade: number;
+    rating: number;
+    content: string | undefined;
+}

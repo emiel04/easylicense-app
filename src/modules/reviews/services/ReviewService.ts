@@ -7,7 +7,13 @@ class ReviewService {
     }
 
     async delete(id: number) {
-        await http.delete(`admin/reviews/${id}`);
+        const response = await http.delete(`admin/reviews/${id}`);
+        return response.data;
+    }
+
+    async create(review: CreateReview) {
+        const response = await http.post('reviews', review);
+        return response.data;
     }
 }
 

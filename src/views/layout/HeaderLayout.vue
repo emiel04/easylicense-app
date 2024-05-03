@@ -7,6 +7,7 @@
         <RouterLink v-if="!user?.admin" class="btn btn-ghost text-xl" to="/">Start</RouterLink>
         <RouterLink class="btn btn-ghost text-xl" to="/theory">Theorie</RouterLink>
         <RouterLink class="btn btn-ghost text-xl" to="/reviews">Reacties</RouterLink>
+        <RouterLink v-if="user?.admin" class="btn btn-ghost text-xl" to="/editor">Editor</RouterLink>
       </div>
       <div class="flex-none gap-2">
         <LanguageSwitcher/>
@@ -33,7 +34,12 @@ export default {
     }
   },
   created() {
-    this.user = JSON.parse(localStorage.getItem('user') ?? '') ?? null;
+    const user = localStorage.getItem('user');
+    if (user) {
+      this.user = JSON.parse(user);
+    }else{
+      this.$router.push('/login');
+    }
   }
 }
 </script>

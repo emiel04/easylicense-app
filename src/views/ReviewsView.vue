@@ -1,13 +1,69 @@
+
+
+<template>
+  <main class="flex start flex-col">
+    <h1 class="title-text pb-6 inline-block">Reviews</h1>
+    <div class="border-2 reviews"> <!-- Reviews -->
+      <!-- Content -->
+
+      <div v-for="(review, i) in reviews" class="card w-96 text-wrap basis-1/2">
+        <div class="card-body basis-0 gap-0 p-6">
+          <h2 class="card-title">
+            <span class="border-r-[color:(var(--n))] border-r-2 pr-4">{{ review.user.name }}</span>
+            <span class="border-r-[color:(var(--n))] border-r-2 pr-2">{{ review.grade }} / 50</span>
+            <Rating :rating=review.rating :name="'review-' + i" disabled/>
+            <span v-if="user?.admin" class="flex">
+              <button class="" @click="deleteReview(review.id)">
+                  <SvgIcon type="mdi" :path="icons.delete"></SvgIcon>
+              </button>
+            </span>
+
+          </h2>
+          <p class="flex-grow-0 overflow-ellipsis">{{ review.content }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="join p-6 mx-auto">
+      <button @click="prevPage" class="join-item btn" :disabled="page === 1">«</button>
+      <button
+          v-for="pageNumber in visiblePages"
+          :key="pageNumber"
+          :class="['join-item', 'btn', { 'btn-active': page === pageNumber }]"
+          @click="setPage(pageNumber)"
+      >
+        {{ pageNumber }}
+      </button>
+      <button @click="nextPage" class="join-item btn" :disabled="page === totalPages">»</button>
+      <button class="btn btn-primary inline-block ml-5" @click="openReviewCreationModal">Place review</button>
+    </div>
+    <Popup ref="reviewCreation" >
+      <ReviewForm @createdReview="createReview"/>
+    </Popup>
+  </main>
+</template>
+
+<style scoped>
+div.reviews {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  height: 75vh;
+}
+</style>
 <script lang="ts">
 import Rating from "@/components/Rating.vue";
 import type {User} from "@/modules/core/types/user";
 import SvgIcon from '@jamescoyle/vue-icon';
 import { mdiDelete } from '@mdi/js';
 import reviewService from "@/modules/reviews/services/ReviewService";
+import Popup from "@/components/Modal.vue";
+import type {TModal} from "@/components/Modal.vue";
+import ReviewForm from "@/modules/reviews/components/ReviewForm.vue";
 
 export default {
   name: "TheoryView",
-  components: {Rating, SvgIcon},
+  components: {ReviewForm, Popup, Rating, SvgIcon},
   data() {
     return {
       user: null as User | null,
@@ -63,6 +119,16 @@ export default {
         this.totalPages = response.last_page;
         this.reviews = response.data;
       });
+    },
+    closeReviewCreationModal() {
+      (this.$refs.reviewCreation as TModal).closeModal();
+    },
+    openReviewCreationModal() {
+      (this.$refs.reviewCreation as TModal).openModal();
+    },
+    createReview(review: Review) {
+      this.closeReviewCreationModal();
+      this.updatePage();
     }
   },
   created() {
@@ -81,52 +147,3 @@ export default {
   }
 };
 </script>
-
-<template>
-  <main class="flex start flex-col">
-    <h1 class="title-text pb-6 inline-block">Reviews</h1>
-    <div class="border-2 reviews"> <!-- Reviews -->
-      <!-- Content -->
-
-      <div v-for="(review, i) in reviews" class="card w-96 text-wrap basis-1/2">
-        <div class="card-body basis-0 gap-0 p-6">
-          <h2 class="card-title">
-            <span class="border-r-[color:(var(--n))] border-r-2 pr-4">{{ review.user.name }}</span>
-            <span class="border-r-[color:(var(--n))] border-r-2 pr-2">{{ review.grade }} / 50</span>
-            <Rating :rating=review.rating :name="'review-' + i"/>
-            <span v-if="user?.admin" class="flex">
-              <button class="" @click="deleteReview(review.id)">
-                  <SvgIcon type="mdi" :path="icons.delete"></SvgIcon>
-              </button>
-            </span>
-
-          </h2>
-          <p class="flex-grow-0 overflow-ellipsis">{{ review.content }}</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="join p-6 mx-auto">
-      <button @click="prevPage" class="join-item btn" :disabled="page === 1">«</button>
-      <button
-          v-for="pageNumber in visiblePages"
-          :key="pageNumber"
-          :class="['join-item', 'btn', { 'btn-active': page === pageNumber }]"
-          @click="setPage(pageNumber)"
-      >
-        {{ pageNumber }}
-      </button>
-      <button @click="nextPage" class="join-item btn" :disabled="page === totalPages">»</button>
-      <button class="btn btn-primary inline-block ml-5">Place review</button>
-    </div>
-  </main>
-</template>
-
-<style scoped>
-div.reviews {
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-  height: 75vh;
-}
-</style>
