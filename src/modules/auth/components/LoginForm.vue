@@ -1,7 +1,7 @@
 <template>
   <LanguageSwitcher/>
   <form id="login-form" class="form-control border-gray-300 border p-12" @submit.prevent="login">
-    <h1 class="title-text inline-block text-start pt-0 pb-3">{{ $t("login-title") }}</h1>
+    <h1 class="title-text inline-block text-start pt-0 pb-3">{{ $t("login-title").capitalize() }}</h1>
     <label class="input input-bordered flex items-center gap-2">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 opacity-70">
         <path
@@ -53,16 +53,16 @@ export default {
         if (response.status) {
           this.$router.replace({name: 'home', query: { msg: response.message, success: 'true'}});
         }else{
-          toast.error(response.message);
+          toast.error(response.message.capitalize());
         }
       }).catch((response) => {
         if(response.response.status === 401){
-          toast.error(response.response.data.message);
+          toast.error(response.response.data.message.capitalize());
           return;
         }
 
         Object.values<string>(response.response.data.errors).forEach(error => {
-          toast.error(error);
+          toast.error(error[0].capitalize());
         });
       });
 

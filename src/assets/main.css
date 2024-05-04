@@ -4,6 +4,7 @@
 
 #app {
     height: 100dvh;
+    overflow-x: hidden;
 }
 
 main{

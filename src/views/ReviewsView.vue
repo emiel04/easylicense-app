@@ -2,7 +2,7 @@
 
 <template>
   <main class="flex start flex-col">
-    <h1 class="title-text pb-6 inline-block">Reviews</h1>
+    <h1 class="title-text pb-6 inline-block">{{ $t('reviews').capitalize() }}</h1>
     <div class="border-2 reviews"> <!-- Reviews -->
       <!-- Content -->
 
@@ -35,7 +35,7 @@
         {{ pageNumber }}
       </button>
       <button @click="nextPage" class="join-item btn" :disabled="page === totalPages">»</button>
-      <button class="btn btn-primary inline-block ml-5" @click="openReviewCreationModal">Place review</button>
+      <button class="btn btn-primary inline-block ml-5" @click="openReviewCreationModal">{{ $t("place-review").capitalize() }}</button>
     </div>
     <Popup ref="reviewCreation" >
       <ReviewForm @createdReview="createReview"/>
@@ -60,6 +60,7 @@ import reviewService from "@/modules/reviews/services/ReviewService";
 import Popup from "@/components/Modal.vue";
 import type {TModal} from "@/components/Modal.vue";
 import ReviewForm from "@/modules/reviews/components/ReviewForm.vue";
+import {toast} from "vue3-toastify";
 
 export default {
   name: "TheoryView",
@@ -129,6 +130,7 @@ export default {
     createReview(review: Review) {
       this.closeReviewCreationModal();
       this.updatePage();
+      toast.success(this.$t('review-created'));
     }
   },
   created() {

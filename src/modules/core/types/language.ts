@@ -1,4 +1,4 @@
-type LanguageCode = 'en' | 'nl'
+type LanguageCode = 'en' | 'nl';
 
 type Language = {
     language_code: LanguageCode;

@@ -39,6 +39,12 @@ const router = createRouter({
                     meta: { requiresAuth: true }
                 },
                 {
+                    path: '/editor/new',
+                    name: 'new-editor',
+                    component: () => import('../views/EditorView.vue'),
+                    meta: { requiresAdmin: true },
+                },
+                {
                     path: '/editor/:id',
                     name: 'editor',
                     component: () => import('../views/EditorView.vue'),

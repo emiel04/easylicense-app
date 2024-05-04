@@ -8,6 +8,12 @@ export const configureVue = (app: App<Element>) => {
     addExtensions();
 }
 
+export const setAxiosLocale = (locale: LanguageCode) => {
+    axios.defaults.headers.common['Accept-Language'] = locale;
+    http.defaults.headers.common['Accept-Language'] = locale;
+    guestHttp.defaults.headers.common['Accept-Language'] = locale;
+}
+
 export const http = axios.create({
     baseURL: API_URL,
     headers: {'Accept': 'application/json'},

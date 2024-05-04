@@ -5,7 +5,8 @@
 
 <script lang="ts">
 import {toast} from "vue3-toastify";
-
+import {setAxiosLocale} from "../config";
+import {toLanguageCode} from "@/modules/languages/helpers/typehelper";
 
 type AppProps = {
   msg: string;
@@ -34,6 +35,12 @@ export default {
         }
       }
     }
+  },
+  created() {
+    const lang = toLanguageCode(localStorage.getItem('lang') ?? "");
+    localStorage.setItem('lang', lang);
+    this.$i18n.locale = lang;
+    setAxiosLocale(lang)
   }
 }
 

@@ -1,22 +1,22 @@
 <template>
   <form class="flex flex-col gap-2" @submit.prevent="submitForm">
     <div class="form-control">
-      <label for="create-rating-score">What was your score?</label>
+      <label for="create-rating-score">{{ $t('create-review-score') }}</label>
       <span class="flex gap-2">
       <input type="range" min="0" max="50" class="range" name="create-rating-score" v-model="grade" />
         {{ grade }}
       </span>
     </div>
     <div class="form-control">
-      <label for="create-rating-rate">What do you rate us?</label>
+      <label for="create-rating-rate">{{ $t('rate-us') }}</label>
       <Rating name="create-rating-rate" @update:rating="rating = $event" :rating ></Rating>
     </div>
     <div class="form-control">
-      <label for="create-rating-comment">Would you like to say anything in your review?</label>
+      <label for="create-rating-comment">{{ $t('write-review') }}</label>
       <textarea id="create-rating-comment" v-model="comment" class="textarea input-bordered" rows="3"></textarea>
     </div>
     <div class="form-control">
-      <button class="btn btn-primary">Submit</button>
+      <button class="btn btn-primary">{{ $t('submit-review') }}</button>
     </div>
     </form>
 </template>
@@ -42,7 +42,7 @@ export default {
   methods: {
     async submitForm() {
       if (this.rating === 0) {
-        toast.warning("Please select a rating");
+        toast.warning(this.$t("rating-required"));
         return;
       }
       const review = await reviewService.create({

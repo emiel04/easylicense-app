@@ -11,8 +11,11 @@ type FullLesson = {
     completed: boolean;
     translations: LessonTranslation[]
 }
-type LessonTranslation = {
+type LessonTranslation = LessonContent & {
     language_code: LanguageCode;
+}
+
+type LessonContent = {
     title: string;
     content: string;
 }

@@ -4,9 +4,9 @@
   <header>
     <div class="navbar bg-base-100 shadow-md">
       <div class="flex-1">
-        <RouterLink v-if="!user?.admin" class="btn btn-ghost text-xl" to="/">Start</RouterLink>
-        <RouterLink class="btn btn-ghost text-xl" to="/theory">Theorie</RouterLink>
-        <RouterLink class="btn btn-ghost text-xl" to="/reviews">Reacties</RouterLink>
+        <RouterLink v-if="!user?.admin" class="btn btn-ghost text-xl" to="/">{{ $t("page-start").capitalize() }}</RouterLink>
+        <RouterLink class="btn btn-ghost text-xl" to="/theory">{{ $t("page-theory").capitalize() }}</RouterLink>
+        <RouterLink class="btn btn-ghost text-xl" to="/reviews">{{ $t("page-review").capitalize() }}</RouterLink>
       </div>
       <div class="flex-none gap-2">
         <LanguageSwitcher/>

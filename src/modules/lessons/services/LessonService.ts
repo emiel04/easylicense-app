@@ -24,6 +24,11 @@ class LessonService {
         const response = await http.patch(`admin/lessons/${id}`, data);
         return response.data;
     }
+
+    async create(data: LessonTranslationUpdate) {
+        const response = await http.post(`admin/lessons/`, {...data, category_id: 1}); /// TODO IMPLEMENT CATEGORIES< NOW DEFAULT TO 1
+        return response.data;
+    }
 }
 
 const lessonService = new LessonService();
