@@ -1,6 +1,5 @@
 <template>
-  <section class="w-5/12 m-5 editor">
-    <h2 class="text-3xl">{{ title }}</h2>
+  <section class="editor">
     <div class="buttons shadow-sm border rounded-t-lg p-4 bg-white flex flex-col">
       <div class="join">  <!-- Row 1 -->
         <button @click="editor?.chain().focus().toggleBold().run()" class="btn btn-sm join-item"
@@ -120,10 +119,6 @@ export default {
       type: String,
       default: '',
     },
-    title:{
-      type: String,
-      default: 'Editor',
-    }
   },
   emits: ['update:modelValue'],
   data() : { editor: any | Editor; icons: any } {

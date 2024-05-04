@@ -11,6 +11,8 @@ const router = createRouter({
             path: '',
             name: 'root',
             component: HeaderLayout,
+            meta: { requiresAuth: true },
+            redirect: {name: 'home'},
             children: [
                 {
                     path: '/',
@@ -37,10 +39,11 @@ const router = createRouter({
                     meta: { requiresAuth: true }
                 },
                 {
-                    path: '/editor',
+                    path: '/editor/:id',
                     name: 'editor',
                     component: () => import('../views/EditorView.vue'),
-                    meta: { requiresAdmin: true }
+                    meta: { requiresAdmin: true },
+                    props: route => ({ id: Number(route.params.id) }),
                 }
             ]
         },
@@ -62,22 +65,21 @@ const router = createRouter({
 router.beforeEach(async (to, from) => {
 
     const user: User | null = await authService.getUser().catch(() => null);
-
     if (to.meta.requiresAuth && !user) {
         return {
-            path: '/login',
+            name: 'login',
             // save the location we were at to come back later
             query: {redirect: to.fullPath},
         }
     }
     if (to.meta.requiresGuest && user) {
         return {
-            path: '/',
+            name: 'home',
         }
     }
     if (to.meta.requiresAdmin && !user?.admin ) {
         return {
-            path: '/',
+            name: 'home',
         }
     }
 })

@@ -15,6 +15,15 @@ class LessonService {
         const response = await http.patch(`progressions/${lesson_id}`, {completed});
         return response.data;
     }
+
+    async findAll(id: number): Promise<FullLesson> {
+        const response = await http.get<FullLesson>(`lessons/${id}?all=true`);
+        return response.data;
+    }
+    async update(id: number, data: LessonTranslationUpdate): Promise<FullLesson> {
+        const response = await http.patch(`admin/lessons/${id}`, data);
+        return response.data;
+    }
 }
 
 const lessonService = new LessonService();

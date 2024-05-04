@@ -39,6 +39,6 @@ class AuthService {
 
 }
 
-const lessonService = new AuthService();
+const authService = new AuthService();
 
-export default lessonService;
+export default authService;
