@@ -1,6 +1,12 @@
 import axios, {AxiosError} from "axios";
 import router from "@/router";
+import type {App} from "vue";
+import {addExtensions} from "./extensions";
 export const API_URL = "https://easylicense.test/api/";
+
+export const configureVue = (app: App<Element>) => {
+    addExtensions();
+}
 
 export const http = axios.create({
     baseURL: API_URL,
@@ -52,3 +58,4 @@ async function refresh() {
 async function routeToLogin(){
     await router.push({name: 'login'});
 }
+

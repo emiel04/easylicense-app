@@ -1,6 +1,7 @@
 <template>
-  <div class="dropdown dropdown-end">
+  <div class="dropdown">
     <div tabindex="0" role="button" class="btn m-1">{{ selectedLanguage?.language_name_native }}</div>
+    {{ $i18n.locale }}
     <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
       <li v-for="language in languages">
         <a @click="setLang(language)">{{ language.language_name_native }}</a>
@@ -29,6 +30,7 @@ export default {
     setLang(lang: Language) {
       this.selectedLanguage = lang;
       localStorage.setItem('lang', lang.language_code);
+      this.$i18n.locale = lang.language_code;
     }
   }
 }

@@ -1,6 +1,7 @@
 <template>
+  <LanguageSwitcher/>
   <form id="login-form" class="form-control border-gray-300 border p-12" @submit.prevent="login">
-    <h1 class="title-text inline-block text-start pt-0 pb-3">Login</h1>
+    <h1 class="title-text inline-block text-start pt-0 pb-3">{{ $t("login-title") }}</h1>
     <label class="input input-bordered flex items-center gap-2">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 opacity-70">
         <path
@@ -8,7 +9,7 @@
         <path
             d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z"/>
       </svg>
-      <input v-model="form.email" type="text" class="grow" placeholder="Email"/>
+      <input v-model="form.email" type="text" class="grow" :placeholder="$t('email').capitalize()"/>
     </label>
     <label class="input input-bordered flex items-center gap-2">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 opacity-70">
@@ -19,8 +20,8 @@
       <input v-model="form.password" type="password" class="grow" placeholder="••••••••••••••"/>
     </label>
     <button class="btn btn-primary mt-1">Login</button>
-    <p>Heb je nog geen account? Maak dan eerst een nieuw<br/> account aan door je te
-      <RouterLink :to="registerPath" class="link">registreren</RouterLink>
+    <p> {{ $t("no-account") }} <br/> {{ $t("create-account") }}
+      <RouterLink :to="registerPath" class="link">{{ $t("register-link") }}</RouterLink>
       .
     </p>
   </form>
@@ -28,9 +29,10 @@
 <script lang="ts">
 import authService from "@/modules/auth/services/AuthService";
 import {toast} from "vue3-toastify";
-
+import LanguageSwitcher from "@/components/LanguageSwitcher.vue";
 export default {
   name: 'LoginForm',
+  components: {LanguageSwitcher},
   props: {
     registerPath: {
       type: String,

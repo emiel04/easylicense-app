@@ -33,6 +33,7 @@
     "axios": "^1.6.8",
     "extension-heading": "link:@types/@tiptap/extension-heading",
     "vue": "^3.4.21",
+    "vue-i18n": "9",
     "vue-icon": "link:@types/@jamescoyle/vue-icon",
     "vue-router": "^4.3.0",
     "vue3-toastify": "^0.2.1"
