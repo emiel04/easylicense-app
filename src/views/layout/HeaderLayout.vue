@@ -7,11 +7,10 @@
         <RouterLink v-if="!user?.admin" class="btn btn-ghost text-xl" to="/">Start</RouterLink>
         <RouterLink class="btn btn-ghost text-xl" to="/theory">Theorie</RouterLink>
         <RouterLink class="btn btn-ghost text-xl" to="/reviews">Reacties</RouterLink>
-        <RouterLink v-if="user?.admin" class="btn btn-ghost text-xl" to="/editor">Editor</RouterLink>
       </div>
       <div class="flex-none gap-2">
         <LanguageSwitcher/>
-        <ThemeSwitcher/>
+<!--        <ThemeSwitcher/>-->
         <ProfileDropdown/>
       </div>
     </div>
