@@ -2,7 +2,15 @@
 
 <template>
   <main class="flex start flex-col">
-    <h1 class="title-text pb-6 inline-block">{{ $t('reviews').capitalize() }}</h1>
+    <div class="flex gap-3 pb-4 items-center">
+      <h1 class="title-text pb-6 inline-block">{{ $t('reviews').capitalize() }}</h1>
+      <select class="select select-bordered w-full max-w-xs" v-model="filterRating" @change="updatePage">
+        <option disabled selected>Filter rating</option>
+        <option selected>No filter</option>
+        <option v-for="index in 5" :key="index" :value="index">{{ '★'.repeat(index) }}</option>
+      </select>
+
+    </div>
     <div class="border-2 reviews"> <!-- Reviews -->
       <!-- Content -->
 
@@ -75,7 +83,8 @@ export default {
       reviews: [] as Review[],
       icons: {
         delete: mdiDelete
-      }
+      },
+      filterRating: 0
     };
   },
   computed: {
@@ -115,7 +124,9 @@ export default {
       });
     },
     updatePage(){
-      reviewService.all(this.page, this.perPage).then(response => {
+      console.log(this.filterRating);
+
+      reviewService.all(this.page, this.perPage, this.filterRating).then(response => {
         this.page = response.current_page;
         this.totalPages = response.last_page;
         this.reviews = response.data;

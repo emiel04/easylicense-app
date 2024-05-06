@@ -1,8 +1,15 @@
 import {http} from "../../../../config";
 
 class ReviewService {
-    async all(page: number = 1, perPage: number = 12): Promise<Page<Review>> {
-        const response = await http.get<Page<Review>>(`reviews?page=${page}&per_page=${perPage}`);
+    async all(page: number = 1, perPage: number = 12, filterRating: number = 0): Promise<Page<Review>> {
+        let path = `reviews?page=${page}&per_page=${perPage}`;
+
+
+        if (filterRating) {
+            path += `&rating=${filterRating}`;
+        }
+
+        const response = await http.get<Page<Review>>(path);
         return response.data;
     }
 
