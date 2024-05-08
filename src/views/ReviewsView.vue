@@ -5,8 +5,8 @@
     <div class="flex gap-3 pb-4 items-center">
       <h1 class="title-text pb-6 inline-block">{{ $t('reviews').capitalize() }}</h1>
       <select class="select select-bordered w-full max-w-xs" v-model="filterRating" @change="updatePage">
-        <option disabled selected>Filter rating</option>
-        <option selected>No filter</option>
+        <option disabled selected>{{$t('filter-rating')}}</option>
+        <option selected :value=0>{{ $t('filter-deselect') }}</option>
         <option v-for="index in 5" :key="index" :value="index">{{ '★'.repeat(index) }}</option>
       </select>
 

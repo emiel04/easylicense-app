@@ -4,7 +4,6 @@ class ReviewService {
     async all(page: number = 1, perPage: number = 12, filterRating: number = 0): Promise<Page<Review>> {
         let path = `reviews?page=${page}&per_page=${perPage}`;
 
-
         if (filterRating) {
             path += `&rating=${filterRating}`;
         }
