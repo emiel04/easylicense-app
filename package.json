@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host app.easylicense.test",
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
     "build-only": "vite build",
@@ -50,6 +50,7 @@
     "tailwindcss": "^3.4.3",
     "typescript": "~5.4.0",
     "vite": "^5.2.8",
+    "vite-plugin-mkcert": "^1.17.5",
     "vite-plugin-vue-devtools": "^7.0.25",
     "vue-tsc": "^2.0.11"
   }

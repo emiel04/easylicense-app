@@ -124,8 +124,6 @@ export default {
       });
     },
     updatePage(){
-      console.log(this.filterRating);
-
       reviewService.all(this.page, this.perPage, this.filterRating).then(response => {
         this.page = response.current_page;
         this.totalPages = response.last_page;
