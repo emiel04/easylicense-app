@@ -7,6 +7,9 @@
       <a class="btn btn-primary" v-if="isAdmin && lessonId" @click="router().push(`/editor/${lessonId}`)">
         {{ $t("edit").capitalize() }}
       </a>
+      <button class="btn btn-error" v-if="isAdmin && lessonId" @click="deleteLesson()">
+        {{ $t("delete").capitalize() }}
+      </button>
     </span>
     <section v-if="loading" class="flex flex-col justify-center items-center">
       <h1 class="title-text">{{ $t("please-wait").capitalize() }}</h1>
@@ -16,7 +19,7 @@
       <h1 class="title-text">{{ $t("error-lesson").capitalize() }}</h1>
     </section>
 
-    <section v-else class="flex flex-grow w-full items-start">
+    <section v-else class="flex flex-grow w-full items-start gap-3">
       <template v-for="lessonContent in contents">
         <Lesson class="flex-grow" :lesson="{
         title: lessonContent.title,
@@ -109,6 +112,13 @@ export default {
       this.completed = completed;
       await lessonService.setLessonComplete(this.id, completed).then(data => {
         this.completed = data.completed;
+      }).catch(e => {
+        toast.error(e.response.data.message);
+      });
+    },
+    async deleteLesson(){
+      await lessonService.delete(this.id).then(() => {
+        this.$router.replace('/theory');
       }).catch(e => {
         toast.error(e.response.data.message);
       });

@@ -29,6 +29,11 @@ class LessonService {
         const response = await http.post(`admin/lessons/`, {...data, category_id: 1}); /// TODO IMPLEMENT CATEGORIES< NOW DEFAULT TO 1
         return response.data;
     }
+
+    async delete(id: number) {
+        const response = await http.delete(`admin/lessons/${id}`);
+        return response.data;
+    }
 }
 
 const lessonService = new LessonService();

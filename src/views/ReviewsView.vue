@@ -31,20 +31,24 @@
         </div>
       </div>
     </div>
+    <div class="p-6 mx-auto">
+      <div class="join ">
+        <button @click="prevPage" class="join-item btn" :disabled="page === 1">«</button>
+        <button
+            v-for="pageNumber in visiblePages"
+            :key="pageNumber"
+            :class="['join-item', 'btn', { 'btn-active': page === pageNumber }]"
+            @click="setPage(pageNumber)"
+        >
+          {{ pageNumber }}
+        </button>
+        <button @click="nextPage" class="join-item btn" :disabled="page === totalPages">»</button>
 
-    <div class="join p-6 mx-auto">
-      <button @click="prevPage" class="join-item btn" :disabled="page === 1">«</button>
-      <button
-          v-for="pageNumber in visiblePages"
-          :key="pageNumber"
-          :class="['join-item', 'btn', { 'btn-active': page === pageNumber }]"
-          @click="setPage(pageNumber)"
-      >
-        {{ pageNumber }}
-      </button>
-      <button @click="nextPage" class="join-item btn" :disabled="page === totalPages">»</button>
+      </div>
       <button class="btn btn-primary inline-block ml-5" @click="openReviewCreationModal">{{ $t("place-review").capitalize() }}</button>
     </div>
+
+
     <Popup ref="reviewCreation" >
       <ReviewForm @createdReview="createReview"/>
     </Popup>
