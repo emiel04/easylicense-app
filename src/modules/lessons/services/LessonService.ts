@@ -2,7 +2,10 @@ import {http} from "../../../../config";
 
 class LessonService {
     async all(allLanguages: boolean = false, search:string = '') {
-        const path = `lessons?all=${allLanguages}${search ? `&search=${search}` : ''}`;
+        let path = `lessons?all=${allLanguages}`;
+        if (search) {
+            path += `&search=${search}`;
+        }
         const response = await http.get<Lesson[]>(path);
         return response.data;
     }
@@ -26,7 +29,7 @@ class LessonService {
     }
 
     async create(data: LessonTranslationUpdate) {
-        const response = await http.post(`admin/lessons/`, {...data, category_id: 1}); /// TODO IMPLEMENT CATEGORIES< NOW DEFAULT TO 1
+        const response = await http.post(`admin/lessons/`, {...data});
         return response.data;
     }
 

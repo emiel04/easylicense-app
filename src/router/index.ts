@@ -1,5 +1,4 @@
 import {createRouter, createWebHistory} from 'vue-router'
-import StartView from '../views/StartView.vue'
 import authService from "@/modules/auth/services/AuthService";
 import HeaderLayout from "@/views/layout/HeaderLayout.vue";
 import type {User} from "@/modules/core/types/user";

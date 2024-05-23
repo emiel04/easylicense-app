@@ -21,9 +21,7 @@
     </form>
 </template>
 
-<style scoped>
 
-</style>
 <script lang="ts">
 
 import Rating from "@/components/Rating.vue";

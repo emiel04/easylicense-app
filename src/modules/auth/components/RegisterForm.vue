@@ -42,7 +42,6 @@
 import type {RegisterProps} from "@/modules/auth/services/AuthService";
 import authService from "@/modules/auth/services/AuthService";
 import {toast} from "vue3-toastify";
-import type {AxiosError} from "axios";
 import LanguageSwitcher from "@/components/LanguageSwitcher.vue";
 
 export default {

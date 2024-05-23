@@ -10,7 +10,6 @@
       </div>
       <div class="flex-none gap-2">
         <LanguageSwitcher/>
-<!--        <ThemeSwitcher/>-->
         <ProfileDropdown/>
       </div>
     </div>

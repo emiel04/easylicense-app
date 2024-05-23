@@ -5,10 +5,6 @@
   </div>
 
 </template>
-
-<style scoped>
-
-</style>
 <script lang="ts">
 import type {PropType} from "vue";
 

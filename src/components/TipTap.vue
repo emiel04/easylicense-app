@@ -121,7 +121,7 @@ export default {
     },
   },
   emits: ['update:modelValue'],
-  data() : { editor: any | Editor; icons: any } {
+  data() : { editor: Editor | null; icons: any } {
     return {
       editor: null,
       icons: {
