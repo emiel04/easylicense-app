@@ -30,6 +30,7 @@
 import authService from "@/modules/auth/services/AuthService";
 import {toast} from "vue3-toastify";
 import LanguageSwitcher from "@/components/LanguageSwitcher.vue";
+
 export default {
   name: 'LoginForm',
   components: {LanguageSwitcher},
@@ -48,15 +49,15 @@ export default {
     }
   },
   methods: {
-    async login(){
+    async login() {
       await authService.login({email: this.form.email, password: this.form.password}).then(response => {
         if (response.status) {
-          this.$router.replace({name: 'home', query: { msg: response.message, success: 'true'}});
-        }else{
+          this.$router.replace({name: 'home', query: {msg: response.message, success: 'true'}});
+        } else {
           toast.error(response.message.capitalize());
         }
       }).catch((response) => {
-        if(response.response.status === 401){
+        if (response.response.status === 401) {
           toast.error(response.response.data.message.capitalize());
           return;
         }

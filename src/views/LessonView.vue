@@ -29,16 +29,17 @@
 
     </section>
 
-    <button v-if="!isAdmin" class="btn basis-0" :class="{'btn-secondary': !completed}" @click="setCompleted(!completed)">
-      {{ !completed ? $t("set-article-completed").capitalize() : $t("set-article-not-completed").capitalize()}}
+    <button v-if="!isAdmin" class="btn basis-0" :class="{'btn-secondary': !completed}"
+            @click="setCompleted(!completed)">
+      {{ !completed ? $t("set-article-completed").capitalize() : $t("set-article-not-completed").capitalize() }}
     </button>
   </main>
 </template>
 <style scoped>
-  .wrapper{
-    max-width: 60vw;
-    margin: 0 auto;
-  }
+.wrapper {
+  max-width: 60vw;
+  margin: 0 auto;
+}
 </style>
 <script lang="ts">
 import lessonService from "@/modules/lessons/services/LessonService";
@@ -47,6 +48,7 @@ import router from "@/router";
 import {toast} from "vue3-toastify";
 import type {User} from "@/modules/core/types/user";
 import Lesson from "@/modules/lessons/components/Lesson.vue";
+
 export default {
   name: "LessonView",
   components: {Lesson, Loading},
@@ -116,7 +118,7 @@ export default {
         toast.error(e.response.data.message);
       });
     },
-    async deleteLesson(){
+    async deleteLesson() {
       await lessonService.delete(this.id).then(() => {
         this.$router.replace('/theory');
       }).catch(e => {

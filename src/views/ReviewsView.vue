@@ -1,11 +1,9 @@
-
-
 <template>
   <main class="flex start flex-col">
     <div class="flex gap-3 pb-4 items-center">
       <h1 class="title-text pb-6 inline-block">{{ $t('reviews').capitalize() }}</h1>
       <select class="select select-bordered w-full max-w-xs" v-model="filterRating" @change="updatePage">
-        <option disabled selected>{{$t('filter-rating')}}</option>
+        <option disabled selected>{{ $t('filter-rating') }}</option>
         <option selected :value=0>{{ $t('filter-deselect') }}</option>
         <option v-for="index in 5" :key="index" :value="index">{{ '★'.repeat(index) }}</option>
       </select>
@@ -45,11 +43,13 @@
         <button @click="nextPage" class="join-item btn" :disabled="page === totalPages">»</button>
 
       </div>
-      <button class="btn btn-primary inline-block ml-5" @click="openReviewCreationModal">{{ $t("place-review").capitalize() }}</button>
+      <button class="btn btn-primary inline-block ml-5" @click="openReviewCreationModal">
+        {{ $t("place-review").capitalize() }}
+      </button>
     </div>
 
 
-    <Popup ref="reviewCreation" >
+    <Popup ref="reviewCreation">
       <ReviewForm @createdReview="createReview"/>
     </Popup>
   </main>
@@ -67,10 +67,10 @@ div.reviews {
 import Rating from "@/components/Rating.vue";
 import type {User} from "@/modules/core/types/user";
 import SvgIcon from '@jamescoyle/vue-icon';
-import { mdiDelete } from '@mdi/js';
+import {mdiDelete} from '@mdi/js';
 import reviewService from "@/modules/reviews/services/ReviewService";
-import Popup from "@/components/Modal.vue";
 import type {TModal} from "@/components/Modal.vue";
+import Popup from "@/components/Modal.vue";
 import ReviewForm from "@/modules/reviews/components/ReviewForm.vue";
 import {toast} from "vue3-toastify";
 
@@ -105,8 +105,8 @@ export default {
         this.update();
       }
     },
-    setPage(page: number){
-      if (this.page <=  this.totalPages && this.page > 0) {
+    setPage(page: number) {
+      if (this.page <= this.totalPages && this.page > 0) {
         this.page = page;
         this.update();
       }
@@ -127,7 +127,7 @@ export default {
         this.updatePage();
       });
     },
-    updatePage(){
+    updatePage() {
       reviewService.all(this.page, this.perPage, this.filterRating).then(response => {
         this.page = response.current_page;
         this.totalPages = response.last_page;
@@ -157,7 +157,7 @@ export default {
       this.update();
     }
   },
-  mounted(){
+  mounted() {
     this.updatePage();
   }
 };

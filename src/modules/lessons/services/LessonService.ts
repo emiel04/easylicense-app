@@ -1,7 +1,7 @@
 import {http} from "../../../../config";
 
 class LessonService {
-    async all(allLanguages: boolean = false, search:string = '') {
+    async all(allLanguages: boolean = false, search: string = '') {
         let path = `lessons?all=${allLanguages}`;
         if (search) {
             path += `&search=${search}`;
@@ -14,6 +14,7 @@ class LessonService {
         const response = await http.get<Lesson>(`lessons/${id}`);
         return response.data;
     }
+
     async setLessonComplete(lesson_id: number, completed: boolean) {
         const response = await http.patch(`progressions/${lesson_id}`, {completed});
         return response.data;
@@ -23,6 +24,7 @@ class LessonService {
         const response = await http.get<FullLesson>(`lessons/${id}?all=true`);
         return response.data;
     }
+
     async update(id: number, data: LessonTranslationUpdate): Promise<FullLesson> {
         const response = await http.patch(`admin/lessons/${id}`, data);
         return response.data;

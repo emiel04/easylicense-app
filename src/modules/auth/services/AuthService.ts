@@ -12,11 +12,13 @@ export type LoginProps = {
     email: string;
     password: string;
 }
+
 class AuthService {
     async register(data: RegisterProps) {
         const response = await guestHttp.post('auth/register', data);
         return response.data;
     }
+
     async login(data: LoginProps) {
         const response = await guestHttp.post('auth/login', data);
         return response.data;
@@ -27,9 +29,9 @@ class AuthService {
         return response.data;
     }
 
-    async getUser(): Promise<User | null>{
+    async getUser(): Promise<User | null> {
         const response = await guestHttp.get('auth/profile');
-        if(!response.status) return null;
+        if (!response.status) return null;
 
         const user = response.data.data;
         localStorage.setItem('user', JSON.stringify(user));

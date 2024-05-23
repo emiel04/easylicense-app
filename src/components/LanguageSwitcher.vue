@@ -22,11 +22,11 @@ export default {
     }
   },
   created() {
-     langService.all().then(languages => {
-       this.languages = languages;
-       const langCode = toLanguageCode(localStorage.getItem('lang') ?? "");
-       this.selectedLanguage = languages.find(l => l.language_code === langCode) ?? languages[0];
-     });
+    langService.all().then(languages => {
+      this.languages = languages;
+      const langCode = toLanguageCode(localStorage.getItem('lang') ?? "");
+      this.selectedLanguage = languages.find(l => l.language_code === langCode) ?? languages[0];
+    });
 
 
   },

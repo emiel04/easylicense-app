@@ -10,45 +10,45 @@ const router = createRouter({
             path: '',
             name: 'root',
             component: HeaderLayout,
-            meta: { requiresAuth: true },
+            meta: {requiresAuth: true},
             redirect: {name: 'home'},
             children: [
                 {
                     path: '/',
                     name: 'home',
                     component: () => import('../views/StartView.vue'),
-                    meta: { requiresAuth: true }
+                    meta: {requiresAuth: true}
                 },
                 {
                     path: '/theory',
                     name: 'theory',
                     component: () => import('../views/TheoryView.vue'),
-                    meta: { requiresAuth: true },
+                    meta: {requiresAuth: true},
                 },
                 {
                     path: '/theory/:id',
                     name: 'lesson',
                     component: () => import('../views/LessonView.vue'),
-                    props: route => ({ id: Number(route.params.id) }),
+                    props: route => ({id: Number(route.params.id)}),
                 },
                 {
                     path: '/reviews',
                     name: 'reviews',
                     component: () => import('../views/ReviewsView.vue'),
-                    meta: { requiresAuth: true }
+                    meta: {requiresAuth: true}
                 },
                 {
                     path: '/editor/new',
                     name: 'new-editor',
                     component: () => import('../views/EditorView.vue'),
-                    meta: { requiresAdmin: true },
+                    meta: {requiresAdmin: true},
                 },
                 {
                     path: '/editor/:id',
                     name: 'editor',
                     component: () => import('../views/EditorView.vue'),
-                    meta: { requiresAdmin: true },
-                    props: route => ({ id: Number(route.params.id) }),
+                    meta: {requiresAdmin: true},
+                    props: route => ({id: Number(route.params.id)}),
                 }
             ]
         },
@@ -56,13 +56,13 @@ const router = createRouter({
             path: '/login',
             name: 'login',
             component: () => import('../views/LoginView.vue'),
-            meta: { requiresGuest: true }
+            meta: {requiresGuest: true}
         },
         {
             path: '/register',
             name: 'register',
             component: () => import('../views/RegisterView.vue'),
-            meta: { requiresGuest: true }
+            meta: {requiresGuest: true}
         },
 
     ]
@@ -82,7 +82,7 @@ router.beforeEach(async (to, from) => {
             name: 'home',
         }
     }
-    if (to.meta.requiresAdmin && !user?.admin ) {
+    if (to.meta.requiresAdmin && !user?.admin) {
         return {
             name: 'home',
         }

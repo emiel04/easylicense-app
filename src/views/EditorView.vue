@@ -1,21 +1,22 @@
-
-
 <template>
   <div class="editors flex justify-center gap-5">
     <div class="flex justify-center flex-col">
       <h2 class="text-2xl mt-3">English</h2>
       <input type="text" class="input input-bordered w-full" v-model="englishTitle"/>
-      <TipTap v-model="englishContent" />
+      <TipTap v-model="englishContent"/>
     </div>
     <div>
       <h2 class="text-2xl mt-3">Dutch</h2>
       <input type="text" class="input input-bordered w-full" v-model="dutchTitle"/>
-      <TipTap v-model="dutchContent" />
+      <TipTap v-model="dutchContent"/>
     </div>
   </div>
   <div class="flex justify-center mx-auto gap-x-10 w-52 m-5">
     <button class="btn btn-primary flex-1" @click="save" :disabled="!canSave">{{ $t("save").capitalize() }}</button>
-    <button class="btn flex-1" @click="$router.back()">{{ hasSaved ? $t("back").capitalize() : $t("cancel").capitalize() }}</button>
+    <button class="btn flex-1" @click="$router.back()">{{
+        hasSaved ? $t("back").capitalize() : $t("cancel").capitalize()
+      }}
+    </button>
   </div>
 
 </template>
@@ -64,16 +65,16 @@ export default {
     }
   },
   watch: {
-    englishContent: function(newVal, oldVal){
+    englishContent: function (newVal, oldVal) {
       this.handleContentChange(newVal, oldVal);
     },
-    dutchContent: function(newVal, oldVal){
+    dutchContent: function (newVal, oldVal) {
       this.handleContentChange(newVal, oldVal);
     },
-    dutchTitle: function(newVal, oldVal){
+    dutchTitle: function (newVal, oldVal) {
       this.handleContentChange(newVal, oldVal);
     },
-    englishTitle: function(newVal, oldVal){
+    englishTitle: function (newVal, oldVal) {
       this.handleContentChange(newVal, oldVal);
     },
   },
@@ -81,7 +82,7 @@ export default {
     if (!this.id) return; // No id, no lesson to edit, we are creating one
 
     const lesson = await lessonService.findAll(this.id);
-    if (!lesson){
+    if (!lesson) {
       return;
     }
     this.lesson = lesson;
@@ -95,11 +96,11 @@ export default {
     this.dutchTitle = dutchTranslation?.title ?? '';
   },
   methods: {
-    handleContentChange: function(newVal: string, oldVal: string) {
+    handleContentChange: function (newVal: string, oldVal: string) {
       if (!oldVal || oldVal === newVal) return;
       this.canSave = true;
     },
-    async save(){
+    async save() {
 
       const data: LessonTranslationUpdate = {
         translations: {
@@ -115,7 +116,7 @@ export default {
       }
 
 
-      if(this.id){
+      if (this.id) {
         await lessonService.update(this.id, data
         ).then(() => {
           toast.success(this.$t('lesson-saved'));
@@ -124,7 +125,7 @@ export default {
         }).catch(e => {
           toast.error(e.response.data.message);
         });
-      }else{
+      } else {
         await lessonService.create({
           translations: {
             'en': {

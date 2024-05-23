@@ -15,14 +15,12 @@
 <script lang="ts">
 import authService from "@/modules/auth/services/AuthService";
 import router from "@/router";
+
 export default {
   name: 'ProfileDropdown',
   methods: {
-    logout(){
-      console.log('Logged out1')
-
+    logout() {
       authService.logout();
-      console.log('Logged out')
       router.push('/login');
     }
   }

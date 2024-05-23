@@ -2,7 +2,7 @@
   "compilerOptions": {
     "preserveSymlinks": false,
     "types": [
-      "vue3-toastify/global",
+      "vue3-toastify/global"
     ]
   },
   "files": [],

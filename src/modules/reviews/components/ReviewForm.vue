@@ -3,13 +3,13 @@
     <div class="form-control">
       <label for="create-rating-score">{{ $t('create-review-score') }}</label>
       <span class="flex gap-2">
-      <input type="range" min="0" max="50" class="range" name="create-rating-score" v-model="grade" />
+      <input type="range" min="0" max="50" class="range" name="create-rating-score" v-model="grade"/>
         {{ grade }}
       </span>
     </div>
     <div class="form-control">
       <label for="create-rating-rate">{{ $t('rate-us') }}</label>
-      <Rating name="create-rating-rate" @update:rating="rating = $event" :rating ></Rating>
+      <Rating name="create-rating-rate" @update:rating="rating = $event" :rating></Rating>
     </div>
     <div class="form-control">
       <label for="create-rating-comment">{{ $t('write-review') }}</label>
@@ -18,7 +18,7 @@
     <div class="form-control">
       <button class="btn btn-primary">{{ $t('submit-review') }}</button>
     </div>
-    </form>
+  </form>
 </template>
 
 
@@ -27,6 +27,7 @@
 import Rating from "@/components/Rating.vue";
 import {toast} from "vue3-toastify";
 import reviewService from "@/modules/reviews/services/ReviewService";
+
 export default {
   name: "ReviewForm",
   components: {Rating},

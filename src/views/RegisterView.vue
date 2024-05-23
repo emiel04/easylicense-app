@@ -5,7 +5,7 @@
 </template>
 
 <style scoped>
-section{
+section {
   display: flex;
   flex-direction: column;
   align-items: center;

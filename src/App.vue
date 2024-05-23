@@ -1,4 +1,3 @@
-
 <template>
   <RouterView/>
 </template>
@@ -26,7 +25,7 @@ export default {
     }
   },
   methods: {
-    showMessage(msg: string, success: boolean){
+    showMessage(msg: string, success: boolean) {
       if (msg) {
         if (success) {
           toast.success(msg);
@@ -43,7 +42,6 @@ export default {
     setAxiosLocale(lang)
   }
 }
-
 
 
 </script>

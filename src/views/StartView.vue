@@ -43,9 +43,17 @@ main {
   justify-items: center;
 }
 
-.welcome { grid-area: 1 / 1 / 2 / 1; }
-.content { grid-area: 2 / 3 / 3 / 1; }
-.buttons { grid-area: 4 / 1 / 4 / 2; }
+.welcome {
+  grid-area: 1 / 1 / 2 / 1;
+}
+
+.content {
+  grid-area: 2 / 3 / 3 / 1;
+}
+
+.buttons {
+  grid-area: 4 / 1 / 4 / 2;
+}
 
 </style>
 
@@ -66,7 +74,7 @@ export default {
       if (this.user?.admin) {
         this.$router.push('theory');
       }
-    }else{
+    } else {
       this.$router.push('/login');
     }
   },

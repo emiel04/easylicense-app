@@ -1,4 +1,3 @@
-
 <template>
   <dialog id="modal_dialog" class="modal" ref="dialog">
     <div class="modal-box">

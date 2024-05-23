@@ -14,7 +14,7 @@
 </span>
 </template>
 <style scoped>
-input[disabled].mask-star{
+input[disabled].mask-star {
   pointer-events: none;
 }
 </style>
@@ -26,7 +26,7 @@ export default {
       type: Number,
       required: true,
     },
-    name:{
+    name: {
       type: String,
       required: true,
     },
@@ -45,7 +45,7 @@ export default {
     }
   },
   methods: {
-    updateRating(rating: number){
+    updateRating(rating: number) {
       this.$emit('update:rating', rating);
     }
   },

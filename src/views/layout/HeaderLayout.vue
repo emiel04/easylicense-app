@@ -1,10 +1,11 @@
-
-
 <template>
   <header>
     <div class="navbar bg-base-100 shadow-md">
       <div class="flex-1">
-        <RouterLink v-if="!user?.admin" class="btn btn-ghost text-xl" to="/">{{ $t("page-start").capitalize() }}</RouterLink>
+        <RouterLink v-if="!user?.admin" class="btn btn-ghost text-xl" to="/">{{
+            $t("page-start").capitalize()
+          }}
+        </RouterLink>
         <RouterLink class="btn btn-ghost text-xl" to="/theory">{{ $t("page-theory").capitalize() }}</RouterLink>
         <RouterLink class="btn btn-ghost text-xl" to="/reviews">{{ $t("page-review").capitalize() }}</RouterLink>
       </div>
@@ -35,7 +36,7 @@ export default {
     const user = localStorage.getItem('user');
     if (user) {
       this.user = JSON.parse(user);
-    }else{
+    } else {
       this.$router.push('/login');
     }
   }

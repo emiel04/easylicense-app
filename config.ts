@@ -2,6 +2,7 @@ import axios, {AxiosError} from "axios";
 import router from "@/router";
 import type {App} from "vue";
 import {addExtensions} from "./extensions";
+
 export const API_URL = "https://easylicense.test/api/";
 
 export const configureVue = (app: App<Element>) => {
@@ -42,7 +43,7 @@ http.interceptors.response.use(
     },
     async (error: AxiosError) => {
         if (error.response && error.response.status === 401) {
-            if (retryCount < 3){
+            if (retryCount < 3) {
                 retryCount++;
                 const success = await refresh();
                 if (success) {
@@ -61,7 +62,7 @@ async function refresh() {
     return response?.status === 200;
 }
 
-async function routeToLogin(){
+async function routeToLogin() {
     await router.push({name: 'login'});
 }
 
