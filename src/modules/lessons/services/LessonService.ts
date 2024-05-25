@@ -31,7 +31,7 @@ class LessonService {
     }
 
     async create(data: LessonTranslationUpdate) {
-        const response = await http.post(`admin/lessons/`, {...data});
+        const response = await http.post(`admin/lessons/`, {...data, category_id: 1}); // IMPLEMENT CATEGORIES< NOW DEFAULT TO 1
         return response.data;
     }
 
