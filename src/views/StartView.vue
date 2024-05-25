@@ -1,6 +1,5 @@
 <template>
   <main class="">
-    <!-- First element -->
     <div class="text-center grid-area-1 welcome">
       <h1 class="title-text">
         {{ $t("start-title") }}
@@ -11,7 +10,6 @@
       </p>
     </div>
 
-    <!-- Second element -->
     <div class="space-y-4 text-base grid-area-2 text-center content">
       <p>
         {{ $t("start-p1") }}
@@ -24,7 +22,6 @@
       </p>
     </div>
 
-    <!-- Third element -->
     <div class="text-center grid-area-3 buttons flex gap-1 justify-center max-w-80">
       <RouterLink to="/theory" class="btn btn-primary flex-grow basis-0">{{ $t("start-start-studying") }}</RouterLink>
       <RouterLink to="/reviews" class="btn btn-primary flex-grow basis-0">{{ $t("start-see-reviews") }}</RouterLink>

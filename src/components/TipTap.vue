@@ -140,9 +140,9 @@ export default {
     },
   },
   emits: ['update:modelValue'],
-  data(): { editor: Editor | null; icons: any } {
+  data(): { editor: any; icons: any } {
     return {
-      editor: null,
+      editor: undefined,
       icons: {
         bold: mdiFormatBold,
         italic: mdiFormatItalic,
@@ -179,9 +179,6 @@ export default {
       editorProps: {
         attributes: {
           class: 'shadow-sm border rounded-b-lg p-4 bg-white overflow-y-auto h-[60vh]',
-        },
-        transformPastedText(text) {
-          return text.toUpperCase()
         }
       },
       extensions: [
@@ -240,7 +237,7 @@ export default {
           inline: true,
         }),
       ],
-      englishContent: this.modelValue,
+      content: this.modelValue,
       onUpdate: () => {
         this.$emit('update:modelValue', this.editor?.getHTML())
       },
