@@ -1,12 +1,12 @@
 <template>
   <div class="editors flex justify-center gap-5">
     <div class="flex justify-center flex-col">
-      <h2 class="text-2xl mt-3">English</h2>
+      <h2 class="text-2xl mt-3">{{$t("english").capitalize()}}</h2>
       <input type="text" class="input input-bordered w-full" v-model="englishTitle"/>
       <TipTap v-model="englishContent"/>
     </div>
     <div>
-      <h2 class="text-2xl mt-3">Dutch</h2>
+      <h2 class="text-2xl mt-3">{{$t("dutch").capitalize()}}</h2>
       <input type="text" class="input input-bordered w-full" v-model="dutchTitle"/>
       <TipTap v-model="dutchContent"/>
     </div>
@@ -101,6 +101,15 @@ export default {
       this.canSave = true;
     },
     async save() {
+
+      if (!this.englishTitle) {
+        toast.error(this.$t('title-empty', { title: this.$t('english').capitalize() }));
+        return;
+      }
+      if (!this.dutchTitle) {
+        toast.error(this.$t('title-empty', { title: this.$t('dutch').capitalize() }));
+        return;
+      }
 
       const data: LessonTranslationUpdate = {
         translations: {

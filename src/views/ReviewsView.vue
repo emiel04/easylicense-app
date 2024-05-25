@@ -61,6 +61,7 @@ div.reviews {
   flex-wrap: wrap;
   flex-direction: row;
   height: 75vh;
+  align-content: start;
 }
 </style>
 <script lang="ts">
@@ -106,7 +107,7 @@ export default {
       }
     },
     setPage(page: number) {
-      if (this.page <= this.totalPages && this.page > 0) {
+      if (page <= this.totalPages && page > 0) {
         this.page = page;
         this.update();
       }
@@ -132,6 +133,12 @@ export default {
         this.page = response.current_page;
         this.totalPages = response.last_page;
         this.reviews = response.data;
+
+        console.log(this.page, this.totalPages);
+        if (this.page > this.totalPages) { // Route back to the last page if the current page is higher than the total pages
+          this.setPage(this.totalPages);
+        }
+
       });
     },
     closeReviewCreationModal() {
